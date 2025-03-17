@@ -36,9 +36,21 @@ def install_dependencies():
             pip_path = os.path.join("venv", "bin", "pip")
             activate_script = os.path.join("venv", "bin", "activate")
 
-        # Install dependencies using the virtual environment's pip
-        subprocess.run([pip_path, "install", "-r", "requirements.txt"], check=True)
-        print("Dependencies installed successfully.")
+        # Update pip to the latest version
+        subprocess.run([pip_path, "install", "--upgrade", "pip"], check=True)
+        print("Pip updated to the latest version.")
+        
+        # Install PyQt5 first
+        subprocess.run([pip_path, "install", "PyQt5==5.15.9"], check=True)
+        print("PyQt5 installed successfully.")
+        
+        # Install PyMuPDF using pre-compiled wheels (no building from source)
+        subprocess.run([pip_path, "install", "PyMuPDF==1.22.5", "--only-binary=pymupdf"], check=True)
+        print("PyMuPDF installed successfully.")
+        
+        # Install openai
+        subprocess.run([pip_path, "install", "openai==0.28.1"], check=True)
+        print("OpenAI installed successfully.")
         
         # Show instructions for activating the virtual environment
         if platform.system() == "Windows":
